@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using WebApplication1.DTO;
 using WebApplication1.Models;
 using WebApplication1.Repositories;
@@ -19,6 +20,7 @@ namespace WebApplication1.Controllers
         }
 
         [HttpPost("{id}")]
+        [Authorize]
         public IActionResult GetById(int id)
         {
             Category category = categoryRepository.GetById(id);
@@ -30,6 +32,7 @@ namespace WebApplication1.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public IActionResult GetAll()
         {
             List<Category> categories = categoryRepository.GetAll();
@@ -48,6 +51,7 @@ namespace WebApplication1.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public IActionResult AddCategory(CategoryDTO categoryDTO)
         {
             if (ModelState.IsValid)
@@ -62,6 +66,7 @@ namespace WebApplication1.Controllers
             return BadRequest(ModelState);
         }
         [HttpPut]
+        [Authorize]
         public IActionResult Edit(int id, CategoryDTO updatedCategory)
         {
             Category category = categoryRepository.GetById(id);
@@ -76,6 +81,7 @@ namespace WebApplication1.Controllers
 
         }
         [HttpDelete]
+        [Authorize]
         public IActionResult Remove(int id)
         {
             Category category = categoryRepository.GetById(id);

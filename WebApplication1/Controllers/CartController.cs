@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using WebApplication1.DTO;
@@ -22,6 +23,7 @@ namespace WebApplication1.Controllers
             this.cartRepository = cartRepository;
         }
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> AddCart(CartDTO cartDTO)
         {
             if (ModelState.IsValid)
@@ -36,6 +38,7 @@ namespace WebApplication1.Controllers
             return BadRequest();
         }
         [HttpGet("GetAll")]
+        [Authorize]
         public IActionResult GetAll()
         {
             List<Cart> carts = cartRepository.GetAll();
@@ -56,6 +59,7 @@ namespace WebApplication1.Controllers
             return BadRequest();
         }
         [HttpGet("GetAllForSpecificUser")]
+        [Authorize]
         public async Task<IActionResult> GetAllForSpecificUser()
         {
             var currentUser = await userManager.GetUserAsync(User);
@@ -101,6 +105,7 @@ namespace WebApplication1.Controllers
         }
 
         [HttpDelete("{productId:int}")]
+        [Authorize]
         public IActionResult Remove(int productId)
         {
             Cart cart = cartRepository.GetByProductId(productId);

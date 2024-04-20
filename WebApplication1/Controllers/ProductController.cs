@@ -31,6 +31,7 @@ namespace WebApplication1.Controllers
             return Ok(product);
         }
         [HttpPost]
+        [Authorize]
         public IActionResult AddDProduct(Product newProdcut)//from request body
         {
             if (ModelState.IsValid == true)
@@ -42,6 +43,7 @@ namespace WebApplication1.Controllers
             return BadRequest(ModelState);
         }
         [HttpPut]//httpPatch
+        [Authorize]
         public IActionResult Edit(int id, Product updatedProduct)
         {
             Product productFromDB = productRepository.GetById(id);
@@ -62,6 +64,7 @@ namespace WebApplication1.Controllers
             return NoContent();
         }
         [HttpDelete("{id:int}")]
+        [Authorize]
         public IActionResult Remove(int id)
         {
             try

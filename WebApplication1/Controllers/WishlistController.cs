@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using WebApplication1.DTO;
@@ -22,6 +23,7 @@ namespace WebApplication1.Controllers
             this.mapper = mapper;
         }
         [HttpGet]
+        [Authorize]
         public IActionResult GetAll()
         {
             List<WishList> wishlist = wishListRepository.GetAll();
@@ -40,6 +42,7 @@ namespace WebApplication1.Controllers
             return NotFound();
         }
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> AddWishList(WishlistDTO wishlistDTO)
         {
             if (ModelState.IsValid)
@@ -55,6 +58,7 @@ namespace WebApplication1.Controllers
             return BadRequest("bad");
         }
         [HttpGet("byCustomerId/{id}")]
+        [Authorize]
         public IActionResult GetByCustomerId(string id)
         {
             List<WishList> wishList = wishListRepository.GetByCustomerId(id);
@@ -76,6 +80,7 @@ namespace WebApplication1.Controllers
             return NotFound("Not Found");
         }
         [HttpGet("byCustomerName/{userName}")]
+        [Authorize]
         public IActionResult GetByCustomerName(string userName)
         {
             List<WishList> wishLists = wishListRepository.GetByCustomerName(userName);
@@ -95,6 +100,7 @@ namespace WebApplication1.Controllers
             return BadRequest();
         }
         [HttpPut("{productId:int}")]
+        [Authorize]
         public async Task<IActionResult> Edit(int productId, int newProductId)
         {
             var currentUser = await userManager.GetUserAsync(User);
@@ -111,6 +117,7 @@ namespace WebApplication1.Controllers
             return BadRequest();
         }
         [HttpDelete]
+        [Authorize]
         public IActionResult Remove(int id)
         {
             List<WishList> wishLists = wishListRepository.GetAll();

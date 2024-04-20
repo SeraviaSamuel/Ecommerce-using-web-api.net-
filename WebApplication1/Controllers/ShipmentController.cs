@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using WebApplication1.DTO;
@@ -22,6 +23,7 @@ namespace WebApplication1.Controllers
             this.userManager = userManager;
         }
         [HttpGet]
+        [Authorize]
         public IActionResult GetAll()
         {
             List<Shipment> shipments = shipmentRepository.GetAll();
@@ -43,6 +45,7 @@ namespace WebApplication1.Controllers
             return Ok(shipmentDTOs);
         }
         [HttpGet("{id:int}")]
+        [Authorize]
         public IActionResult GetById(int id)
         {
             Shipment shipment = shipmentRepository.GetById(id);
@@ -54,6 +57,7 @@ namespace WebApplication1.Controllers
             return NotFound();
         }
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> AddShipment(ShipmentDTO shipmentDTO)
         {
             if (ModelState.IsValid)
@@ -81,6 +85,7 @@ namespace WebApplication1.Controllers
         }
 
         [HttpPut]
+        [Authorize]
         public async Task<IActionResult> Edit(int id, ShipmentDTO shipmentDTO)
         {
             var currentUser = await userManager.GetUserAsync(User);
@@ -99,6 +104,7 @@ namespace WebApplication1.Controllers
             return NotFound();
         }
         [HttpDelete]
+        [Authorize]
         public IActionResult Remove(int id)
         {
             Shipment shipment = shipmentRepository.GetById(id);

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using WebApplication1.DTO;
@@ -22,6 +23,7 @@ namespace WebApplication1.Controllers
             this.userManager = userManager;
         }
         [HttpGet]
+        [Authorize]
         public IActionResult GetAll()
         {
             List<Payment> payments = paymentRepository.GetAll();
@@ -40,6 +42,7 @@ namespace WebApplication1.Controllers
             return Ok(paymentDTOs);
         }
         [HttpGet("{id:int}")]
+        [Authorize]
         public IActionResult GetById(int id)
         {
             Payment payment = paymentRepository.GetById(id);
@@ -51,6 +54,7 @@ namespace WebApplication1.Controllers
             return NotFound("Not Found");
         }
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> AddPayment(PaymentDTO paymentDTO)
         {
             if (ModelState.IsValid)
@@ -65,6 +69,7 @@ namespace WebApplication1.Controllers
             return BadRequest("Not Inserted");
         }
         [HttpPut]
+        [Authorize]
         public async Task<IActionResult> Edit(int id, PaymentDTO paymentDTO)
         {
             var currentUser = await userManager.GetUserAsync(User);
@@ -81,6 +86,7 @@ namespace WebApplication1.Controllers
             return NotFound("Not Found");
         }
         [HttpDelete]
+        [Authorize]
         public IActionResult Remove(int id)
         {
             Payment payment = paymentRepository.GetById(id);
